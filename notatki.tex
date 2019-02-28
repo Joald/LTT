@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{amsthm}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+    language=Bash,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    escapeinside={(*}{*)},          % if you want to add LaTeX within your code
+    tabsize=4
+}
+
+\title{Notatki z Logiki i teorii typów}
+\author{Jacek Olczyk}
+\date{Feb 2019}
+
+\begin{document}
+\maketitle
+
+Check if Peirce's law: $((p \rightarrow q) \rightarrow p) \rightarrow p$ is a tautology.
+$$\begin{array}{c|c|c|c|c}
+p&q&p \rightarrow q&(p \rightarrow q) \rightarrow p&all\\
+\hline
+0&0&1&0&1\\
+0&1&1&0&1\\
+1&0&0&1&1\\
+1&1&1&1&1
+\end{array}$$
+Let $ v: $ Prop Variables $ \rightarrow \{0,1\}$. Then we can define semantics of formulas $ [[\alpha]]_v $ given a valuation $ v $. What if $ v: $ Prop Variables $ \rightarrow \mathbb{P}(\mathbb{R}^2)$?
+\begin{itemize}
+	\item $ [[p]]_v=v(p) $
+	\item $ [[\alpha\wedge\beta]]_v=[[\alpha]]_v\cup[[\beta]]_v $
+	\item The same for disjunction.
+	\item $ [[\neg\alpha]]_v=\setminus[[\alpha]]_v $
+	\item $ [[\alpha \rightarrow \beta]]_v=\setminus[[\alpha]]_v\cup[[\beta]]_v $
+\end{itemize}
+Now the formula $ \alpha $ is a tautology iff for all $ v: $ Prop Var $  \rightarrow \mathbb{P}(\mathbb{R}^2) $ we have $ [[\alpha]]_v=\mathbb{R}^2 $. Prove that.\\
+Boolean algebra - $ <B, \le, \cup, \cap, -, 0, 1> $\\
+\section{Lambda calculus}
+Normalize.
+\begin{align*}
+(\lambda x.x(x(y z))x)(\lambda u.uv) &= (\lambda u.uv)((\lambda u.uv)(yz))(\lambda u.uv)\\
+&=(\lambda u.uv)(yzv)(\lambda u.uv)\\
+&=(yzvv)(\lambda u.uv)
+\end{align*}
+\begin{align*}
+H&=\lambda xy.x(\lambda z.yzy)x\\
+HIH &= I (\lambda z. HzH)I\\
+&=(\lambda z. HzH)I\\
+&=HIH
+\end{align*}
+Homework: for every $n$, design a term that will reduce to itself in exactly $ n $ reduction.
+\begin{align*}
+L&=\lambda xy.x(yy)x
+LLI&=
+\end{align*}
+This produces an infinite chain of reductions that never repeat:
+$ \omega_3 =\lambda x.xxx$
+\subsection{Church numerals}
+Sidenote: $ <M, N> = \lambda x .xMN$
+\begin{align*}
+\underline{0}&=\lambda fx.x\\
+\underline{1}&=\lambda fx.fx\\
+\underline{2}&=\lambda fx.f(fx)\\
+\underline{1}&=\lambda fx.f^{(n)}(x)\\
+\text{Succ } n &=\lambda kfx.f(kf(x))\\
+\text{Add } n m&=\lambda nm. n \text{ succ }m\\
+\text{Multiply } n m&=\lambda nm. n (\text{add } m) \underline{0}\\
+\text{Pred } n&=\pi_1(n\text{ Step }<0,0>)\\
+&\text{ where Step } p= <\pi_2p, \text{ succ }(\pi_2p)>
+\end{align*}
+
+\end{document}
